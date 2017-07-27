@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 
@@ -26,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -262,15 +264,7 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-        LinearLayout tab4 = (LinearLayout) findViewById(R.id.tab4);
-        ImageView iv_airplane = new ImageView(Main_Activity.this);
 
-        iv_airplane.setImageResource(R.drawable.insert);
-        iv_airplane.setX(50);
-        iv_airplane.setY(50);
-        iv_airplane.setVisibility(View.VISIBLE);
-//        iv_airplane.animate().x(1000).y(1000).setDuration(2000);
-        tab4.addView(iv_airplane);
 
         Button airplaneTakeOff = (Button) findViewById(R.id.b_takeoff);
         mp_airplaneTakeoff = MediaPlayer.create(this, R.raw.aircraft003);
@@ -278,6 +272,17 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mp_airplaneTakeoff.start();
+                RelativeLayout tab4 = (RelativeLayout) findViewById(R.id.tab4);
+                ImageView iv_airplane = new ImageView(Main_Activity.this);
+                iv_airplane.setScaleX((float) .5);
+                iv_airplane.setScaleY((float) .5);
+
+                iv_airplane.setImageResource(R.drawable.c919);
+                iv_airplane.setX(0);
+                iv_airplane.setY(25);
+                iv_airplane.setVisibility(View.VISIBLE);
+                iv_airplane.animate().alpha(0).x(1000).y(2000).setDuration(5000);
+                tab4.addView(iv_airplane);
 
             }
         });
@@ -288,6 +293,17 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mp_heliTakeoff.start();
+                RelativeLayout tab4 = (RelativeLayout) findViewById(R.id.tab4);
+                ImageView iv_heli = new ImageView(Main_Activity.this);
+                iv_heli.setScaleX((float) .5);
+                iv_heli.setScaleY((float) .5);
+
+                iv_heli.setImageResource(R.drawable.popup_helicopter);
+                iv_heli.setX(0);
+                iv_heli.setY(1000);
+                iv_heli.setVisibility(View.VISIBLE);
+                iv_heli.animate().alpha(0).x(0).y(0).setDuration(5000);
+                tab4.addView(iv_heli);
             }
         });
 

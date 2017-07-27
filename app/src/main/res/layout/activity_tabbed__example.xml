@@ -31,17 +31,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/tab4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/lp_wallpaper"
-                    android:orientation="vertical"
                     android:saveEnabled="false">
+
+
 
                     <GridLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="330dp">
 
                         <TextView
                             android:id="@+id/textView6"
@@ -131,7 +132,7 @@
 
                     </GridLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/tab1"
