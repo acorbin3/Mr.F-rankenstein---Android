@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TabTesting</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string-array name="GE_Divions">
+        <item>GE Power</item>
+        <item>GE Oil &amp; Gas</item>
+        <item>GE Energy Connections</item>
+        <item>GE Aviation</item>
+        <item>GE Healthcare</item>
+        <item>GE Transportation</item>
+        <item>GE Capital</item>
+        <item>GE Digital</item>
+    </string-array>
+</resources>
