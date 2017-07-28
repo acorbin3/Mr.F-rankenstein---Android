@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -31,6 +32,12 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,16 +48,24 @@ public class Main_Activity extends AppCompatActivity {
     private float lastX;
     private TabHost mTabHost;
     private int currentTab;
-    public static final String PREFS_NAME = "MyPrefsFile";
-    public static final String SP_KEY_SAVED_LIST = "GE_Engines";
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String SP_KEY_SAVED_LIST = "GE_Engines";
     private static final String SP_KEY_CHECKBOX = "PersistantCheckbox";
-    public CustomListAdapter listAdapter;
+    private CustomListAdapter listAdapter;
 
-    private boolean USE_SHARED_PREFS = true;
-    SharedPreferences mSharedPreferences;
-    SharedPreferences.Editor mspEditor;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mspEditor;
     private MediaPlayer mp_heliTakeoff;
     private MediaPlayer mp_airplaneTakeoff;
+    private FirebaseDatabase mDatabase;
+
+    public enum ListType{
+        LT_USE_SHARED_PREFS,
+        LT_USE_INTERNAL_LIST,
+        LT_USE_FIREBASE
+    }
+
+    private final ListType listTypeToUse = ListType.LT_USE_FIREBASE;
 
     ArrayList<String> trackedList = new ArrayList<String>();
 
@@ -104,63 +119,9 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-        if(!USE_SHARED_PREFS) {
-            //Add all items to the trackedList list
-            trackedList.add("TF39(1968)");
-            trackedList.add("CF6(1970)");
-            trackedList.add("CFM56/F108(1982)");
-            trackedList.add("GE90(1994)");
-            trackedList.add("GP7200(2006)");
-            trackedList.add("GEnx(2007)");
-            trackedList.add("LEAP-X(2016)");
-            trackedList.add("GE Passport(2014 planned)");
-            trackedList.add("GE9X(2018 planned)");
-        }
-        else {
-            //Persistant Data on tab 3 list. Different options SQL, properties? Firebase
-            //Shared preferences
-            mSharedPreferences = getSharedPreferences(PREFS_NAME, 0);
-            mspEditor = mSharedPreferences.edit();
 
-            Set<String> spList = mSharedPreferences.getStringSet(SP_KEY_SAVED_LIST, null);
-
-            //When shared prefs are known refresh the trackedList,
-            // Otherwise shared prefs are empty we need to initilize them with some default values.
-            if (spList != null) {
-                for (String item : spList) {
-                    trackedList.add(item);
-                }
-            }
-            else{
-                trackedList.add("Tesla");
-                trackedList.add("Honda");
-                trackedList.add("Chevy");
-                trackedList.add("Ford");
-                trackedList.add("Hyundai");
-
-
-                mspEditor.putStringSet(SP_KEY_SAVED_LIST,new HashSet<String>(trackedList));
-                mspEditor.commit();
-                spList = mSharedPreferences.getStringSet(SP_KEY_SAVED_LIST, null);
-
-                System.out.print("List of all items in prefs");
-                for(String item : spList){
-                    System.out.print(item);
-                }
-            }
-
-            //Update the text view on 3rd tab to know its not engines
-            TextView tv_listTitle = (TextView) findViewById(R.id.textViewListTitle);
-            tv_listTitle.setText("Epic Cars");
-            //Update the edit text that says insert car
-            EditText et_listEditBox = (EditText) findViewById(R.id.editTextListEntry);
-            et_listEditBox.setText("Enter the next Epic car!");
-        }
-        //Inflate the ListView on tab3
-        ListView listView = (ListView) findViewById(R.id.list1);
-        listAdapter = new CustomListAdapter(this, trackedList);
-        listView.setAdapter(listAdapter);
-
+        /////////////////
+        ///Tab 2 setup///
 
         //Create onlick listener for tab 2 to change the Text View on that page to a text input +
         //random number added at the end
@@ -175,6 +136,102 @@ public class Main_Activity extends AppCompatActivity {
 
             }
         });
+        ///End Tab 2 setup//
+        ////////////////////
+
+        /////////////////
+        ///Tab 3 setup///
+
+
+        switch (listTypeToUse){
+            case LT_USE_INTERNAL_LIST:
+                //Add all items to the trackedList list
+                trackedList.add("TF39(1968)");
+                trackedList.add("CF6(1970)");
+                trackedList.add("CFM56/F108(1982)");
+                trackedList.add("GE90(1994)");
+                trackedList.add("GP7200(2006)");
+                trackedList.add("GEnx(2007)");
+                trackedList.add("LEAP-X(2016)");
+                trackedList.add("GE Passport(2014 planned)");
+                trackedList.add("GE9X(2018 planned)");
+                break;
+            case LT_USE_SHARED_PREFS:
+                //Persistant Data on tab 3 list. Different options SQL, properties? Firebase
+                //Shared preferences
+                mSharedPreferences = getSharedPreferences(PREFS_NAME, 0);
+                mspEditor = mSharedPreferences.edit();
+
+                Set<String> spList = mSharedPreferences.getStringSet(SP_KEY_SAVED_LIST, null);
+
+                //When shared prefs are known refresh the trackedList,
+                // Otherwise shared prefs are empty we need to initilize them with some default values.
+                if (spList != null) {
+                    for (String item : spList) {
+                        trackedList.add(item);
+                    }
+                }
+                else{
+                    trackedList.add("Tesla");
+                    trackedList.add("Honda");
+                    trackedList.add("Chevy");
+                    trackedList.add("Ford");
+                    trackedList.add("Hyundai");
+
+
+                    mspEditor.putStringSet(SP_KEY_SAVED_LIST,new HashSet<String>(trackedList));
+                    mspEditor.commit();
+                    spList = mSharedPreferences.getStringSet(SP_KEY_SAVED_LIST, null);
+
+                    System.out.print("List of all items in prefs");
+                    for(String item : spList){
+                        System.out.print(item);
+                    }
+                }
+
+                //Update the text view on 3rd tab to know its not engines
+                final TextView tv_listTitle = (TextView) findViewById(R.id.textViewListTitle);
+                tv_listTitle.setText("Epic Cars");
+                //Update the edit text that says insert car
+                EditText et_listEditBox = (EditText) findViewById(R.id.editTextListEntry);
+                et_listEditBox.setText("Enter the next Epic car!");
+                break;
+            case LT_USE_FIREBASE:
+                mDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = mDatabase.getReference("message");
+
+                myRef.setValue("Hello, World!");
+
+                //Realtime updates to app
+                // Read from the database
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        String value = dataSnapshot.getValue(String.class);
+                        Log.d("DEBUG", "Value is: " + value);
+                        TextView tv_liveView = (TextView) findViewById(R.id.textViewLiveDB);
+                        tv_liveView.setText(value);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("DEBUG", "Failed to read value.", error.toException());
+                    }
+                });
+
+                DatabaseReference listRef = mDatabase.getReference("message");
+                break;
+
+        }
+
+        //Inflate the ListView on tab3
+        ListView listView = (ListView) findViewById(R.id.list1);
+        listAdapter = new CustomListAdapter(this, trackedList);
+        listView.setAdapter(listAdapter);
+
 
         //Create on click listener for tab 3 to add an item to the list
         ImageView iv_InsertItem = (ImageView) findViewById(R.id.imageView2);
@@ -189,10 +246,15 @@ public class Main_Activity extends AppCompatActivity {
                     listAdapter.updateList(trackedList);
                     et_NewItemText.setText("Inserted");
 
-                    if(USE_SHARED_PREFS){
-                        mspEditor.putStringSet(SP_KEY_SAVED_LIST,new HashSet<String>(trackedList));
-                        mspEditor.commit();
+                    switch (listTypeToUse){
+                        case LT_USE_INTERNAL_LIST:
+                            mspEditor.putStringSet(SP_KEY_SAVED_LIST,new HashSet<String>(trackedList));
+                            mspEditor.commit();
+                            break;
+                        case LT_USE_FIREBASE:
+                            break;
                     }
+
                 }
             }
         });
@@ -236,6 +298,9 @@ public class Main_Activity extends AppCompatActivity {
                 }
             }
         });
+
+        ///End Tab 3 setup//
+        ////////////////////
 
 
 
@@ -302,7 +367,7 @@ public class Main_Activity extends AppCompatActivity {
                 iv_heli.setX(0);
                 iv_heli.setY(1000);
                 iv_heli.setVisibility(View.VISIBLE);
-                iv_heli.animate().alpha(0).x(0).y(0).setDuration(5000);
+                iv_heli.animate().alpha(0).x(-200).y(0).scaleX((float).1).scaleY((float).1).setDuration(5000);
                 tab4.addView(iv_heli);
             }
         });
@@ -323,7 +388,8 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-
+        ///End Tab 4///
+        ///////////////
 
 
 

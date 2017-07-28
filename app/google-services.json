@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "360516365322",
+    "firebase_url": "https://mrfrankenstein-556de.firebaseio.com",
+    "project_id": "mrfrankenstein-556de",
+    "storage_bucket": "mrfrankenstein-556de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360516365322:android:7cc28709861577b2",
+        "android_client_info": {
+          "package_name": "com.backflippedstudios.mrfrankenstein"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360516365322-7tadq7fgcqnpl8r66hds8ovqt2dkifqh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.backflippedstudios.mrfrankenstein",
+            "certificate_hash": "4b388327fcc2a791652b22281bea3a1980e298f6"
+          }
+        },
+        {
+          "client_id": "360516365322-5c9rmtlb8e6mn00624tbucbq0l0cfnds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp38gbVswbTrPDHF-JFH6-1sCCECYxkHA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360516365322-5c9rmtlb8e6mn00624tbucbq0l0cfnds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

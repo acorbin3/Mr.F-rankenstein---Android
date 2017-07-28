@@ -31,6 +31,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/tab3background"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/textViewListTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="List of GE Engines"
+                        android:textColor="@android:color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <ListView
+                        android:id="@+id/list1"
+                        android:layout_width="match_parent"
+                        android:layout_height="215dp" />
+
+                    <TextView
+                        android:id="@+id/textViewLiveDB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Live DB"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/editTextListEntry"
+                        android:layout_width="match_parent"
+                        android:layout_height="62dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="New Engine to add"
+                        android:textColor="@android:color/white" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="102dp"
+                        android:layout_weight="0.19"
+                        app:srcCompat="@drawable/insert" />
+
+                </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/tab4"
                     android:layout_width="match_parent"
@@ -164,47 +212,6 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/tab3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/tab3background"
-                    android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/textViewListTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="List of GE Engines"
-                        android:textColor="@android:color/white"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-
-                    <ListView
-                        android:id="@+id/list1"
-                        android:layout_width="match_parent"
-                        android:layout_height="232dp"
-                        android:layout_weight="0.80" />
-
-                    <EditText
-                        android:id="@+id/editTextListEntry"
-                        android:layout_width="match_parent"
-                        android:layout_height="62dp"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:text="New Engine to add"
-                        android:textColor="@android:color/white" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="102dp"
-                        android:layout_weight="0.19"
-                        app:srcCompat="@drawable/insert" />
 
                 </LinearLayout>
 
