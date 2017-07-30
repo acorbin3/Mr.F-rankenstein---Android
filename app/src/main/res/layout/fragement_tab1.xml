@@ -19,7 +19,7 @@
         android:id="@+id/imageView3"
         android:layout_width="227dp"
         android:layout_height="151dp"
-        app:srcCompat="@drawable/lifebuzz_008cd283abe9148c83ac39b934287009_limit_2000" />
+        app:srcCompat="@drawable/fau_pool" />
 
     <TextView
         android:id="@+id/textView2"
