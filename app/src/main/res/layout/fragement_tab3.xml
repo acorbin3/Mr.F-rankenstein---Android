@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab3background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="List of GE Engines"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/list1"
+        android:layout_width="match_parent"
+        android:layout_height="264dp" />
+
+    <TextView
+        android:id="@+id/textViewDBItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Live DB"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextNewItem"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="New Engine to add"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/imageViewInsert"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:layout_weight="0.19"
+        app:srcCompat="@drawable/insert" />
+</LinearLayout>

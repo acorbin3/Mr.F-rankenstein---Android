@@ -1,14 +1,25 @@
 package com.backflippedstudios.mrfrankenstein;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.backflippedstudios.mrfrankenstein.Fragements.Tab3Fragment;
+import com.backflippedstudios.mrfrankenstein.Fragements.Tab4Fragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+
+import static com.backflippedstudios.mrfrankenstein.Fragements.Tab3Fragment.ListType.LT_USE_SHARED_PREFS;
 
 /**
  * Created by C0rbin on 7/24/2017.
@@ -29,12 +40,6 @@ public class CustomListAdapter extends BaseAdapter {
         //Triggers the list update
         notifyDataSetChanged();
     }
-
-    public void addItem(String newItem){
-        searchArrayList.add(newItem);
-        notifyDataSetChanged();
-    }
-
 
     @Override
     public int getCount() {
@@ -59,12 +64,46 @@ public class CustomListAdapter extends BaseAdapter {
         }
 
         //Find the Text view layout. Then set the text, color, and size.
-        TextView tv = (TextView) view.findViewById(R.id.custom_layout_tv1);
+        TextView tv = view.findViewById(R.id.custom_layout_tv1);
 
         tv.setText(searchArrayList.get(i));
         tv.setTextColor(Color.WHITE);
         tv.setTextSize(20);
 
+        ImageView ivRemove = view.findViewById(R.id.imageViewRemove);
+
+        ivRemove.setOnClickListener(new CustomOnClickListener(i));
+
         return view;
+    }
+
+    public class CustomOnClickListener implements View.OnClickListener{
+
+        Integer rowItem;
+
+        public  CustomOnClickListener(Integer rowItem){
+            this.rowItem = rowItem;
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            //Sync with DB and shared prefs and trackedList
+            String itemToRemove = searchArrayList.get(rowItem);
+            searchArrayList.remove(searchArrayList.get(rowItem));
+            switch(Tab3Fragment.listTypeToUse){
+                case LT_USE_SHARED_PREFS:
+                    SharedPreferences mSharedPreferences = view.getContext().getSharedPreferences(Tab3Fragment.PREFS_NAME, 0);
+                    SharedPreferences.Editor mspEditor = mSharedPreferences.edit();
+                    mspEditor.putStringSet(Tab3Fragment.SP_KEY_SAVED_LIST,new HashSet<String>(searchArrayList));
+                    mspEditor.commit();
+                    break;
+                case LT_USE_FIREBASE:
+                    DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+                    mDatabaseRef.child(Tab3Fragment.FIREBASE_KEY_LIST).child(itemToRemove).removeValue();
+                    break;
+            }
+            notifyDataSetChanged();
+        }
     }
 }

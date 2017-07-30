@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab2background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewTab2"
+        android:layout_width="match_parent"
+        android:layout_height="176dp"
+        android:layout_weight="0.87"
+        android:text="TextView3 Tab2"
+        android:textColor="@android:color/white"
+        android:textSize="36sp" />
+
+    <EditText
+        android:id="@+id/editTextTab2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@android:color/darker_gray"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter Text to change TV3"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonChangeText"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:elevation="9dp"
+        android:text="Change Text" />
+</LinearLayout>
