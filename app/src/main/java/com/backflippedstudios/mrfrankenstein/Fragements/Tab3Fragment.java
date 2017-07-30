@@ -51,7 +51,7 @@ public class Tab3Fragment extends Fragment {
         LT_USE_FIREBASE
     }
 
-    public static final ListType listTypeToUse = ListType.LT_USE_FIREBASE;
+    public static final ListType listTypeToUse = ListType.LT_USE_SHARED_PREFS;
 
     public static ArrayList<String> trackedList = new ArrayList<String>();
 
@@ -197,6 +197,10 @@ public class Tab3Fragment extends Fragment {
                 String newListItem = et_NewItemText.getText().toString();
 
                 switch (listTypeToUse) {
+                    case LT_USE_INTERNAL_LIST:
+                        trackedList.add(newListItem);
+                        listAdapter.updateList(trackedList);
+                        break;
                     case LT_USE_SHARED_PREFS:
                         trackedList.add(newListItem);
                         listAdapter.updateList(trackedList);
